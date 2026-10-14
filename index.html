@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>一间自己的房间</title><meta name="description" content="推开门，走进我的手绘房间。"/><link rel="icon" href="data:,"/></head>
+<body data-phase="loading"><canvas id="room" aria-label="可走动的黑白手绘卧室"></canvas>
+<header><div><small>A ROOM OF MY OWN</small><h1>一间自己的房间</h1></div></header>
+<section id="welcome" aria-label="房间入口"><p id="loading" role="status">正在展开这间小房间…</p><button id="enter" disabled aria-label="打开门，走进房间"><span class="sr-only">打开门，走进房间</span></button></section>
+<nav id="controls" hidden aria-label="房间控制">
+<button id="menu-toggle" aria-label="房间菜单" aria-expanded="false" aria-controls="room-menu"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8.5 20 8M4 15.5 15 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>
+<div id="room-menu" hidden><p class="menu-caption">ROOM / 房间</p><button id="view">查看人物 <kbd>V</kbd></button><button id="plan">俯视布局</button><button id="sit" disabled>坐到桌前 <kbd>E</kbd></button><button id="reset">回到门口</button></div>
+</nav>
+<footer aria-label="操作提示"><p class="help-title">操作提示</p><div id="keys"><div class="key-help"><span class="key-cluster"><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></span><span class="key-label">/ 方向键移动</span></div><div class="key-help"><kbd>V</kbd><span class="key-label">/ 切换视角</span></div><div class="key-help"><kbd>E</kbd><span class="key-label" id="interaction-label">/ 开门 / 进屋</span></div></div><p id="hint" class="sr-only" role="status">一扇门，和一些属于我的东西。</p></footer>
+<div id="touch" hidden aria-label="触屏移动"><button data-key="KeyW" aria-label="前进">↑</button><div><button data-key="KeyA" aria-label="向左">←</button><button data-key="KeyS" aria-label="后退">↓</button><button data-key="KeyD" aria-label="向右">→</button></div></div>
+<script type="module" src="/src/room-v3.js"></script></body></html>
+

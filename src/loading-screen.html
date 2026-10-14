@@ -1,0 +1,106 @@
+<style>
+/* Same original pixels, source crop and screen projection as entrance-v7.js. */
+body[data-booting]{margin:0;background:#fff;overflow:hidden}
+body[data-booting]>:not(#boot-screen):not(style):not(script){visibility:hidden!important;pointer-events:none!important}
+#boot-screen{position:fixed;inset:0;z-index:10000;background:#fff;color:#55554e;font-family:KaiTi,STKaiti,'Songti SC',serif;transition:opacity .8s ease;box-sizing:border-box}
+#boot-screen *{box-sizing:border-box}
+#boot-screen .boot-brand{position:absolute;top:36px;left:40px;font:9px/1.8 Georgia,serif;letter-spacing:3.8px;color:#87877f}
+#boot-screen .boot-door{position:absolute;display:block;overflow:hidden}
+#boot-screen .boot-center{position:absolute;left:50%;width:min(340px,calc(100vw - 40px));text-align:center;transform:translateX(-50%)}
+#boot-screen h2{font:400 16px/1.6 KaiTi,STKaiti,'Songti SC',serif;letter-spacing:2px;margin:0 0 8px}
+#boot-screen .boot-message{min-height:20px;margin:0;font:11px/1.8 'Microsoft YaHei','PingFang SC',sans-serif;letter-spacing:.5px;color:#95938a}
+#boot-screen .boot-message::after{content:'…';display:inline-block;animation:boot-breath 2s ease-in-out infinite}
+#boot-screen[data-error] .boot-message::after{content:none}
+@keyframes boot-breath{50%{opacity:.25}}
+#boot-screen .boot-retry{display:block;margin:12px auto 0;padding:8px 16px;border:1px solid #c6c5ba;border-radius:2px;background:white;color:#55554d;font:12px/1.4 'Microsoft YaHei',sans-serif;cursor:pointer}
+#boot-screen .boot-retry:focus-visible{outline:2px solid #797b66;outline-offset:4px}
+#boot-screen [hidden]{display:none!important}
+#boot-screen.boot-leaving{opacity:0;pointer-events:none}
+@media(max-width:600px){#boot-screen .boot-brand{top:27px;left:25px;font-size:8px;letter-spacing:2.7px}#boot-screen h2{font-size:15px}}
+@media(max-height:570px){#boot-screen .boot-center{left:calc(50% - 235px);top:50%!important;transform:translate(-50%,-50%);width:200px}}
+@media(prefers-reduced-motion:reduce){#boot-screen{transition:opacity .12s}#boot-screen .boot-message::after{animation:none}}
+</style>
+<section id="boot-screen" aria-label="正在准备房间" aria-busy="true">
+ <span class="boot-brand">A ROOM OF MY OWN</span>
+ <svg id="boot-door" class="boot-door" viewBox="90 66 738 1560" preserveAspectRatio="none" aria-hidden="true">
+  <defs><mask id="boot-pencil-mask" maskUnits="userSpaceOnUse" x="90" y="66" width="738" height="1560">
+   <g fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round">
+    <path data-start="0" data-duration="3600" stroke-width="76" d="M116 1631 L116 89 L797 89 L797 1631"/>
+    <path data-start="1100" data-duration="3300" stroke-width="32" d="M145 1616 L145 134 L770 134 L770 1616 L145 1616"/>
+    <path data-start="3200" data-duration="2600" stroke-width="46" d="M248 238 L671 238 L671 814 L248 814 L248 238"/>
+    <path data-start="4800" data-duration="2400" stroke-width="46" d="M248 928 L671 928 L671 1483 L248 1483 L248 928"/>
+    <path data-start="6500" data-duration="1200" stroke-width="28" d="M353 395 L561 373 L574 508 L360 527 L353 395"/>
+    <path data-start="7100" data-duration="650" stroke-width="48" d="M439 383 L475 374"/>
+    <path data-start="7600" data-duration="1000" stroke-width="72" d="M379 455 L545 444"/>
+    <path data-start="8050" data-duration="700" stroke-width="68" d="M719 871 L721 873"/>
+    <path data-start="8500" data-duration="650" stroke-width="24" d="M148 298 L148 389 M148 1300 L148 1395"/>
+   </g>
+   <rect id="boot-paper-detail" x="90" y="66" width="738" height="1560" fill="white" opacity="0"/>
+  </mask></defs>
+  <image id="boot-door-image" href="/assets/entrance-v11/door-pencil-hd.png" x="0" y="0" width="917" height="1715" mask="url(#boot-pencil-mask)"/>
+ </svg>
+ <div class="boot-center" id="boot-caption">
+  <h2 id="boot-title">一笔一画，准备一间房间</h2>
+  <p class="boot-message" id="boot-message" role="status" aria-live="polite">正在取来门口的画稿</p>
+  <button class="boot-retry" id="boot-retry" hidden>重新加载</button>
+  <noscript><p>这间互动房间需要启用 JavaScript。</p></noscript>
+ </div>
+</section>
+<script>
+(()=>{
+ const screen=document.getElementById('boot-screen'),door=document.getElementById('boot-door'),message=document.getElementById('boot-message'),retry=document.getElementById('boot-retry'),caption=document.getElementById('boot-caption');
+ let bootEnglish=false;try{bootEnglish=localStorage.getItem('paper-room-language')==='en';}catch{}
+ const bootWords={'一笔一画，准备一间房间':'A room, one line at a time','正在取来门口的画稿':'Bringing in the doorway sketch','重新加载':'Try again','初次来访，房间还在准备中':'Getting everything ready for your first visit','房间还没准备好':'The room is not ready yet','连接似乎中断了，再试一次吧。':'The connection was interrupted. Please try again.','正在完成门口的最后几笔':'Adding the last lines to the doorway','房间准备好了，进来坐坐。':'The room is ready. Come on in.','正在把物件放进房间…':'Arranging the objects…','理好光线，留一点安静…':'Setting the light…'};
+ const bootText=text=>bootEnglish?(bootWords[text]||text):text;
+ if(bootEnglish){document.documentElement.lang='en';screen.setAttribute('aria-label','Preparing the room');for(const el of [message,retry,document.getElementById('boot-title')])el.textContent=bootText(el.textContent);}
+ const reduced=matchMedia('(prefers-reduced-motion:reduce)').matches;
+ let complete=false,failed=false,prepared=0,finishing=false,sourceReady=false,shown=0,target=0,raf,last=performance.now(),resolveDrawing;
+ const weights=__BOOT_WEIGHTS__,received=new Map(),totalBytes=Object.values(weights).reduce((a,b)=>a+b,0);
+ const locked=new Map(),drawing=new Promise(resolve=>resolveDrawing=resolve);
+ function resource(file,loaded,total){if(failed||complete||!weights[file])return;const fraction=Math.min(1,loaded/(total>0?total:weights[file]));received.set(file,Math.max(received.get(file)||0,fraction));updateTarget();}
+ function updateTarget(){if(finishing){target=1;return}const downloaded=Object.entries(weights).reduce((sum,[file,size])=>sum+size*(received.get(file)||0),0)/totalBytes;target=Math.max(target,(sourceReady?.02:0)+downloaded*.86+Math.min(prepared/6,1)*.06);}
+ // Image downloads also count, including cached images and the first-paint door.
+ // Resource timing reports their completion; GLB streams report every received chunk.
+ const resources=new PerformanceObserver(list=>{for(const entry of list.getEntries()){const url=new URL(entry.name,location.href);if(url.origin===location.origin&&url.pathname.startsWith('/assets/'))resource(url.pathname.slice(8),1,1);}});
+ resources.observe({type:'resource',buffered:true});
+ function lock(){for(const el of document.body.children){if(el===screen||/^(SCRIPT|STYLE)$/.test(el.tagName))continue;if(!locked.has(el)){locked.set(el,el.inert);el.inert=true;}}}
+ const observer=new MutationObserver(lock);observer.observe(document.body,{childList:true});lock();
+ function resize(){const w=innerWidth,h=innerHeight,baseHeight=w<650?1100:Math.max(941,1672/(w/h)),s=h/baseHeight;door.style.left=(w/2+(696-836)*s)+'px';door.style.top=(h/2+(174-470.5)*s)+'px';door.style.width=280*s+'px';door.style.height=526*s+'px';caption.style.top=(h/2+(700-470.5)*s+25)+'px';}
+ resize();addEventListener('resize',resize);
+ const paths=[...door.querySelectorAll('path')];for(const p of paths){const length=p.getTotalLength();p.style.strokeDasharray=length;p.style.strokeDashoffset=length;}
+ retry.onclick=()=>location.reload();
+ const slow=setTimeout(()=>{if(!complete&&!failed){message.textContent=bootText('初次来访，房间还在准备中');retry.hidden=false;}},18000);
+ function fail(){if(complete||failed)return;failed=true;clearTimeout(slow);cancelAnimationFrame(raf);resources.disconnect();resolveDrawing();screen.dataset.error='true';screen.setAttribute('aria-busy','false');document.getElementById('boot-title').textContent=bootText('房间还没准备好');message.textContent=bootText('连接似乎中断了，再试一次吧。');retry.hidden=false;}
+ // Reveal original pixels along the existing pencil strokes, then paper grain.
+ const source=new Image();source.fetchPriority='high';source.src='/assets/entrance-v11/door-pencil-hd.png';
+ source.decode().then(()=>{
+  sourceReady=true;updateTarget();
+  screen.dataset.drawing='true';
+ }).catch(fail);
+ const strokes=paths.map(p=>({p,length:p.getTotalLength(),start:+p.dataset.start,duration:+p.dataset.duration})),detail=document.getElementById('boot-paper-detail');
+ function draw(now){if(failed||complete)return;const dt=Math.min((now-last)/1000,.1);last=now;
+  if(sourceReady){const gap=target-shown;shown+=Math.min(gap,dt*(reduced?4:.2),gap*(1-Math.exp(-dt*(reduced?15:3))));if(finishing&&1-shown<.001)shown=1;
+   const position=shown*10400;for(const s of strokes)s.p.style.strokeDashoffset=s.length*(1-Math.max(0,Math.min(1,(position-s.start)/s.duration)));
+   const grain=Math.max(0,Math.min(1,(position-9000)/1400));detail.setAttribute('opacity',grain*grain*(3-2*grain));
+   if(shown===1){screen.dataset.drawing='complete';resolveDrawing();return;}
+  }raf=requestAnimationFrame(draw);
+ }raf=requestAnimationFrame(draw);
+ function clean(){cancelAnimationFrame(raf);resources.disconnect();screen.remove();delete window.paperBoot;removeEventListener('resize',resize);removeEventListener('error',onError,true);removeEventListener('unhandledrejection',fail);}
+ function onError(e){if(e.target?.tagName==='SCRIPT'||e.error)fail();}
+ window.paperBoot={
+  stage(text){if(!failed&&!complete)message.textContent=bootText(text).replace(/…+$/,'');},
+  resource,
+  step(){if(failed||complete)return;prepared++;updateTarget();},
+  get state(){return{shown,target,prepared,sourceReady,finishing,failed};},
+  fail,
+  async finish(){if(failed||complete||finishing)return;finishing=true;clearTimeout(slow);updateTarget();message.textContent=bootText('正在完成门口的最后几笔');retry.hidden=true;
+   await drawing;if(failed)return;
+   complete=true;clearTimeout(slow);message.textContent=bootText('房间准备好了，进来坐坐。');screen.setAttribute('aria-busy','false');
+   await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+   observer.disconnect();for(const [el,inert] of locked)el.inert=inert;locked.clear();delete document.body.dataset.booting;screen.classList.add('boot-leaving');
+   await new Promise(resolve=>setTimeout(resolve,reduced?140:850));clean();
+  }
+ };
+ addEventListener('error',onError,true);addEventListener('unhandledrejection',fail);
+})();
+</script>

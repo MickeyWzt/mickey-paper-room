@@ -1,0 +1,25 @@
+#entrance-props{position:fixed;left:0;top:0;width:1672px;height:941px;isolation:isolate;contain:layout style;pointer-events:none;z-index:2}
+.entrance-prop{position:absolute;margin:0;padding:0;border:0;border-radius:0;pointer-events:none;mix-blend-mode:normal;background:none}
+.prop-crop{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.prop-crop img{display:block;position:absolute;max-width:none;pointer-events:none;user-select:none;image-rendering:auto}
+#portfolio-plaque{pointer-events:auto;touch-action:manipulation;cursor:pointer;overflow:visible;mix-blend-mode:normal}
+#portfolio-plaque:disabled{opacity:1;cursor:default}
+#portfolio-plaque:focus-visible{outline:1px dashed #777;outline-offset:7px}
+.plaque-mount{position:absolute;width:10px;height:10px;transform:translate(-50%,-50%);border-radius:50%;background:#fff;pointer-events:none}
+.plaque-nail{position:absolute;inset:1.7px;border:1px solid #50504d;border-radius:46% 53% 49% 44%;background:#eeeeeb;box-shadow:inset 1px 1px 0 #fff,0 .4px 0 #b0b0aa}
+.plaque-nail:after{content:'';position:absolute;left:1px;right:1px;top:45%;height:1px;background:#696964;transform:rotate(-42deg)}
+.plaque-hint{position:absolute;left:0;right:0;bottom:calc(100% + 10px);font:12px/1.4 KaiTi,STKaiti,'Microsoft YaHei',serif;letter-spacing:2px;color:#6d6d67;opacity:0;transition:opacity .15s;pointer-events:none}
+#portfolio-plaque:hover .plaque-hint,#portfolio-plaque:focus-visible .plaque-hint{opacity:1}
+#portfolio-plaque[data-state=falling] .plaque-hint{opacity:0}
+#plaque-fragments{position:absolute;inset:0;pointer-events:none}
+.plaque-fragment{left:0;top:0;width:280px;height:60px;pointer-events:auto;touch-action:manipulation;cursor:pointer;mix-blend-mode:normal}
+.plaque-fragment:disabled{opacity:1;cursor:default}
+.plaque-fragment[data-pickup=placed]{pointer-events:none}
+.fragment-art{position:absolute;width:280px;height:60px;pointer-events:none}
+.plaque-fragment:focus-visible .fracture-edge{filter:drop-shadow(0 0 1px #343434)}
+.fracture-edge{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.plaque-impact-mark{position:absolute;width:5px;height:1px;background:#77736b;pointer-events:none;transform-origin:center}
+@media(prefers-reduced-motion:reduce){.plaque-hint{transition:none}}
+
+.entrance-star{position:absolute;left:1020px;top:475px;width:20px;height:24px;pointer-events:none}
+#portfolio-plaque[data-state=repairing] .plaque-hint{opacity:0}

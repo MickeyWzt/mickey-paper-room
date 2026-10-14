@@ -1,0 +1,13 @@
+{
+  "source": "exec-49c275ae-f410-4145-8a2d-13df642e0f1c.png",
+  "edit_target": "public/assets/entrance-v8/potted-plant.png",
+  "asset": "public/assets/entrance-v13/potted-plant-alpha.png",
+  "prompt_summary": "Background-extraction edit of supplied graphite pencil potted plant. Make external background and spaces between leaves/stems genuinely transparent alpha. Preserve exact plant, pot shape, leaf positions, pencil strokes, grayscale colors and fine hatching. Keep leaf and ceramic pot interiors opaque white. No white rectangle, checkerboard, added shadow or stool. Clean production sprite edges, entire plant uncropped.",
+  "generator": "Built-in image_gen; model version not exposed",
+  "dimensions": [
+    1054,
+    1492
+  ],
+  "mode": "RGBA",
+  "prompt": "Use case: background-extraction. Edit target: supplied graphite pencil potted plant. Make the outer background genuinely TRANSPARENT with alpha, including all empty spaces between leaves and stems and beneath the pot. Preserve this exact plant, pot shape, leaf positions, pencil strokes, grayscale colors, fine hatching and overall composition. Keep the plant leaves and ceramic pot interiors opaque white paper with graphite pencil, only the external empty background transparent. No white rectangular background, no checkerboard drawn in image, no added drop shadow, no stool, no scene. Production sprite, tight clean edges without white halo. Keep entire plant and pot uncropped and the same straight-on illustration. High resolution."
+}
