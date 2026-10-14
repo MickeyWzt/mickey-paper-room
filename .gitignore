@@ -1,0 +1,17 @@
+node_modules/
+dist/
+releases/
+.vercel/
+.local/
+.env
+.env.*
+!.env.example
+*.log
+*.pem
+*.key
+*.p12
+*.pfx
+.DS_Store
+Thumbs.db
+playwright-report/
+test-results/
